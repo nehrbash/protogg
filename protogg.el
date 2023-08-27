@@ -58,7 +58,6 @@
   "Call the next function after quitting minbuffer."
   (protogg-minibuffer-mode -1))
 
-
 (define-minor-mode protogg-minibuffer-mode
   "Toggle between two interactive functions when they are active in the minibuffer."
   :init-value nil
@@ -82,21 +81,19 @@ It does this based on whether in a project and can be toggled with ."
 
      (if (and (project-current) protogg--use-upper)
          (progn (condition-case nil
-                    (call-interactively ',function1)
+                    (call-interactively ,function1)
                   (quit
                    (if protogg--toggle
                        (call-interactively #',newfunc)
                      )))
                 (minibuffer-keyboard-quit))
        (progn (condition-case nil
-                  (call-interactively ',function2)
+                  (call-interactively ,function2)
                 (quit
                  (if protogg--toggle
                      (call-interactively #',newfunc)
                    )))
               (minibuffer-keyboard-quit)))))
-
-
 
 ;;; define buffer mode and keymap
 (defvar-keymap protogg-mode-map
@@ -108,35 +105,78 @@ It does this based on whether in a project and can be toggled with ."
   :init-value nil
   :global t
   :group 'protogg
-  :keymap protogg-mode-map)
+  :keymap protogg-mode-map
+  (protogg-create-bindings))
+
+(declare-function protogg-async-shell-command "placeholder")
+(declare-function protogg-compile "placeholder")
+(declare-function protogg-dired "placeholder")
+(declare-function protogg-display-buffer "placeholder")
+(declare-function protogg-eshell "placeholder")
+(declare-function protogg-find-dired "placeholder")
+(declare-function protogg-find-file "placeholder")
+(declare-function protogg-kill-buffer "placeholder")
+(declare-function protogg-list-buffers "placeholder")
+(declare-function protogg-shell "placeholder")
+(declare-function protogg-shell-command "placeholder")
+(declare-function protogg-switch-to-buffer "placeholder")
+
+(defvar protogg--commands
+  '((project-async-shell-command  async-shell-command protogg-async-shell-command)
+    (project-compile  compile protogg-compile)
+    (project-dired  dired protogg-dired)
+    (project-display-buffer  display-buffer protogg-display-buffer)
+    (project-eshell  eshell protogg-eshell)
+    (project-find-dir  find-dired protogg-find-dired)
+    (project-find-file  find-file protogg-find-file)
+    (project-kill-buffer  kill-buffer protogg-kill-buffer)
+    (project-list-buffers  list-buffers protogg-list-buffers)
+    (project-shell  shell protogg-shell)
+    (project-shell-command  shell-command protogg-shell-command)
+    (project-switch-to-buffer  switch-to-buffer protogg-switch-to-buffer)))
+
+(defun protogg-create-bindings ()
+  "Setup for protogg."
+  (protogg-create 'project-async-shell-command 'async-shell-command protogg-async-shell-command)
+  (protogg-create 'project-compile 'compile protogg-compile)
+  (protogg-create 'project-dired 'dired protogg-dired)
+  (protogg-create 'project-display-buffer 'display-buffer protogg-display-buffer)
+  (protogg-create 'project-eshell 'eshell protogg-eshell)
+  (protogg-create 'project-find-dir 'find-dired protogg-find-dired)
+  (protogg-create 'project-find-file 'find-file protogg-find-file)
+  (protogg-create 'project-kill-buffer 'kill-buffer protogg-kill-buffer)
+  (protogg-create 'project-list-buffers 'list-buffers protogg-list-buffers)
+  (protogg-create 'project-shell 'shell protogg-shell)
+  (protogg-create 'project-shell-command 'shell-command protogg-shell-command)
+  (protogg-create 'project-switch-to-buffer 'switch-to-buffer protogg-switch-to-buffer)
+  (define-key protogg-mode-map [remap async-shell-command] 'protogg-async-shell-command)
+  (define-key protogg-mode-map [remap compile] 'protogg-compile)
+  (define-key protogg-mode-map [remap dired] 'protogg-dired)
+  (define-key protogg-mode-map [remap display-buffer] 'protogg-display-buffer)
+  (define-key protogg-mode-map [remap eshell] 'protogg-eshell)
+  (define-key protogg-mode-map [remap find-dired] 'protogg-find-dired)
+  (define-key protogg-mode-map [remap find-file] 'protogg-find-file)
+  (define-key protogg-mode-map [remap kill-buffer] 'protogg-kill-buffer)
+  (define-key protogg-mode-map [remap list-buffers] 'protogg-list-buffers)
+  (define-key protogg-mode-map [remap shell-command] 'protogg-shell-command)
+  (define-key protogg-mode-map [remap shell] 'protogg-shell)
+  (define-key protogg-mode-map [remap switch-to-buffer] 'protogg-switch-to-buffer)
+  ;; (dolist (command-def protogg--commands)
+  ;;   (let ((command (car command-def))
+  ;;         (function (cadr command-def))
+  ;;         (implementation (caddr command-def)))
+  ;;     (protogg-create command function implementation)
+  ;;     (define-key protogg-mode-map [remap function] 'implementation)))
+  )
 
 
-(define-key protogg-mode-map [remap async-shell-command] 'protogg-async-shell-command)
-(define-key protogg-mode-map [remap compile] 'protogg-compile)
-(define-key protogg-mode-map [remap dired] 'protogg-dired)
-(define-key protogg-mode-map [remap display-buffer] 'protogg-display-buffer)
-(define-key protogg-mode-map [remap eshell] 'protogg-eshell)
-(define-key protogg-mode-map [remap find-dired] 'protogg-find-dired)
-(define-key protogg-mode-map [remap find-file] 'protogg-find-file)
-(define-key protogg-mode-map [remap kill-buffer] 'protogg-kill-buffer)
-(define-key protogg-mode-map [remap list-buffers] 'protogg-list-buffers)
-(define-key protogg-mode-map [remap shell-command] 'protogg-shell-command)
-(define-key protogg-mode-map [remap shell] 'protogg-shell)
-(define-key protogg-mode-map [remap switch-to-buffer] 'protogg-switch-to-buffer)
-(protogg-create project-async-shell-command async-shell-command protogg-async-shell-command)
-(protogg-create project-compile compile protogg-compile)
-(protogg-create project-dired dired protogg-dired)
-(protogg-create project-display-buffer display-buffer protogg-display-buffer)
-(protogg-create project-eshell eshell protogg-eshell)
-(protogg-create project-find-dir find-dired protogg-find-dired)
-(protogg-create project-find-file find-file protogg-find-file)
-(protogg-create project-kill-buffer kill-buffer protogg-kill-buffer)
-(protogg-create project-list-buffers list-buffers protogg-list-buffers)
-(protogg-create project-shell shell protogg-shell)
-(protogg-create project-shell-command shell-command protogg-shell-command)
-(protogg-create project-switch-to-buffer switch-to-buffer protogg-switch-to-buffer)
 
-;; use projectile for vterm.
+
+
+
+
+;; from projectile for vterm.
+;; TODO(SN): make a simple vterm function without extra if exist logic.
 
 ;; (defun projectile--vterm (&optional new-process other-window)
 ;;   "Invoke `vterm' in the project's root.
