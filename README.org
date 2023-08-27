@@ -14,7 +14,7 @@ Protogg remapps the =project.el= functions to their non-project related function
   :config (protogg-mode 1))
 #+end_src
 
-* Useage
+* Usage
 
   When =protogg= is enabled and in a detectable project according to =project.el= the =project-*= command will be called instead of the typical command. Example calling =find-file= will actually call =project-find-file=. However, you may not always want the project version. To solve this, while in the minibuffer you may switch between the two command with the =protogg-switch-minibuffer= function bound to =M-q= by default.
 
