@@ -28,15 +28,10 @@
   :link '(emacs-library-link :tag "Library Source" "protogg.el")
   :prefix "protogg-")
 
-;; (defcustom protogg-toggle-key nil
-;;   "Keybind for toggling between project and non-project functions.
-;; The key must be a string accepted by `key-valid-p'."
-;;   :type '(choice key (const nil)))
-
-;; (defvar protogg-toggle--key "M-q"
-;;   "Keybind for toggling between project and non-project functions.
-;; The key must be a string accepted by `key-valid-p'."
-;;   )
+(defcustom protogg-minibuffer-toggle-key "M-q"
+  "Keybinding for switching protogg functions in the minibuffer ."
+  :type 'key-sequence
+  :group 'protogg)
 
 (defvar protogg--toggle nil
   "Holds the state of protogg toggle.")
@@ -46,7 +41,7 @@
 
 (defvar-keymap protogg-minibuffer-mode-map
   :doc "Keymap used for switching protogg functions."
-  "M-q" #'protogg-switch-minibuffer)
+  protogg-minibuffer-toggle-key #'protogg-switch-minibuffer)
 
 (defun protogg-switch-minibuffer ()
   "Toggle the state on wheather to use the project based function or not."
@@ -80,26 +75,26 @@
 It does this based on whether in a project and can be toggled with ."
   `(defun ,newfunc ()
      (interactive)
+     ;; reset
      (if protogg--toggle
-       (setq protogg--toggle nil)
+         (setq protogg--toggle nil)
        (setq protogg--use-upper t))
+
      (if (and (project-current) protogg--use-upper)
-       (condition-case nil
-         (call-interactively ',function1)
-         (quit
-           (if protogg--toggle
-             (progn
-               (call-interactively #',newfunc)
-               (minibuffer-keyboard-quit))))))
-     (if (null protogg--use-upper)
-       (condition-case nil
-         (call-interactively ',function2)
-         (quit
-           (if protogg--toggle
-             (progn
-               (call-interactively #',newfunc)
-               (minibuffer-keyboard-quit)))))
-       (call-interactively ',function2))))
+         (progn (condition-case nil
+                    (call-interactively ',function1)
+                  (quit
+                   (if protogg--toggle
+                       (call-interactively #',newfunc)
+                     )))
+                (minibuffer-keyboard-quit))
+       (progn (condition-case nil
+                  (call-interactively ',function2)
+                (quit
+                 (if protogg--toggle
+                     (call-interactively #',newfunc)
+                   )))
+              (minibuffer-keyboard-quit)))))
 
 
 

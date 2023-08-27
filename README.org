@@ -11,6 +11,7 @@ Protogg remapps the =project.el= functions to their non-project related function
   :ensure nil
   :vc (protogg :url "https://github.com/nehrbash/protogg"
         :branch "main")
+  :custom (protogg-minibuffer-toggle-key "M-g")
   :config (protogg-mode 1))
 #+end_src
 
