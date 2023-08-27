@@ -9,8 +9,9 @@ Protogg remapps the =project.el= functions to their non-project related function
 #+begin_src emacs-lisp
 (use-package protogg
   :ensure nil
-  :hook (after-init . protogg-mode)
-  :load-path "~/.emacs.d/lisp/protogg.el")
+  :vc (protogg :url "https://github.com/nehrbash/protogg"
+        :branch "main")
+  :config (protogg-mode 1))
 #+end_src
 
 * Useage

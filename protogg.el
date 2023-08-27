@@ -1,10 +1,20 @@
 ;;; protogg.el --- project.el function remapping -*- lexical-binding: t -*-
-
+;;
+;; Copyright (C) 2023 by Stephe Nehrbass
+;;
+;; Author: nehrbash
+;;
+;; Keywords: convenience, minibuffer, protogg
+;; Version: 0.1
+;; Homepage: https://github.com/nehrbash/protogg
+;;
+;; This file is NOT part of GNU Emacs.
+;;
 ;;; Commentary:
-
+;;
 ;; Protogg remapps the `project.el' functions to their non-project related functions while also providing a minbuffer
 ;; keybind to switch between the two functions.
-
+;;
 ;;; Code:
 
 (require 'project)
@@ -14,7 +24,7 @@
   "Remap \=project\= keys to their regular counterpart."
   :group 'convenience
   :group 'minibuffer
-  :link '(url-link :tag "GitHub" "<fill this in later>")
+  :link '(url-link :tag "GitHub" "https://github.com/nehrbash/protogg")
   :link '(emacs-library-link :tag "Library Source" "protogg.el")
   :prefix "protogg-")
 
