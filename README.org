@@ -1,0 +1,35 @@
+#+TITLE: Protogg
+
+Protogg remapps the =project.el= functions to their non-project related functions while also providing a minbuffer keybinding to toggle between the two functions.
+
+* Getting Started
+
+  Here is an example configuration using =use-package=
+
+#+begin_src emacs-lisp
+(use-package protogg
+  :ensure nil
+  :hook (after-init . protogg-mode)
+  :load-path "~/.emacs.d/lisp/protogg.el")
+#+end_src
+
+* Useage
+
+  When =protogg= is enabled and in a detectable project according to =project.el= the =project-*= command will be called instead of the typical command. Example calling =find-file= will actually call =project-find-file=. However, you may not always want the project version. To solve this, while in the minibuffer you may switch between the two command with the =protogg-switch-minibuffer= function bound to =M-q= by default.
+
+** Remapping
+
+   Here is a list of  the remapped project function.
+
+- =project-async-shell-command= =  =async-shell-command=
+- =project-compile= =  =compile=
+- =project-dired= =  =dired=
+- =project-display-buffer= =  =display-buffer=
+- =project-eshell= =  =eshell=
+- =project-find-dir= =  =find-dired=
+- =project-find-file= =  =find-file=
+- =project-kill-buffer= =  =kill-buffer=
+- =project-list-buffers= =  =list-buffers=
+- =project-shell= =  =shell=
+- =project-shell-command= =  =shell-command=
+- =project-switch-to-buffer= =  =switch-to-buffer=
