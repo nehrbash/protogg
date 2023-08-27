@@ -23,17 +23,27 @@ Protogg remapps the =project.el= functions to their non-project related function
 
    Here is a list of  the remapped project function.
 
-|-----------------------------+---------------------|
-| project-async-shell-command | async-shell-command |
-| project-compile             | compile             |
-| project-dired               | dired               |
-| project-display-buffer      | display-buffer      |
-| project-eshell              | eshell              |
-| project-find-dir            | find-dired          |
-| project-find-file           | find-file           |
-| project-kill-buffer         | kill-buffer         |
-| project-list-buffers        | list-buffers        |
-| project-shell               | shell               |
-| project-shell-command       | shell-command       |
-| project-switch-to-buffer    | switch-to-buffer    |
-|-----------------------------+---------------------|
+| original-function   | remapped to                 |
+|---------------------+-----------------------------|
+| async-shell-command | project-async-shell-command |
+| compile             | project-compile             |
+| dired               | project-dired               |
+| display-buffer      | project-display-buffer      |
+| eshell              | project-eshell              |
+| find-dired          | project-find-dir            |
+| find-file           | project-find-file           |
+| kill-buffer         | project-kill-buffer         |
+| list-buffers        | project-list-buffers        |
+| shell               | project-shell               |
+| shell-command       | project-shell-command       |
+| switch-to-buffer    | project-switch-to-buffer    |
+
+** Example Mapping to  a Diffrent Function or Adding Your Own
+
+#+begin_src emacs-lisp
+(use-package protogg
+  :config
+  (protogg-mode 1)
+  (protogg-create 'consult-project-buffer 'consult-buffer sn/consult-buffer)
+  (define-key protogg-mode-map [remap switch-to-buffer] 'sn/consult-buffer))
+#+end_src
