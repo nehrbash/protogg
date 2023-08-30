@@ -65,7 +65,10 @@
   :global nil
   :keymap protogg-minibuffer-mode-map)
 
-(defmacro protogg-create (function1 function2 newfunc)
+(with-eval-after-load 'minibuffer
+    (add-hook 'minibuffer-setup-hook #'protogg-minibuffer-mode))
+
+(defmacro protogg-define (function1 function2 newfunc)
   "Create function NEWFUNC to toggle between FUNCTION1 and FUNCTION2.
 It does this based on whether in a project and can be toggled with ."
   `(defun ,newfunc ()
@@ -88,29 +91,26 @@ It does this based on whether in a project and can be toggled with ."
           (if protogg--toggle
               (,newfunc)))))))
 
-(with-eval-after-load 'minibuffer
-    (add-hook 'minibuffer-setup-hook #'protogg-minibuffer-mode))
-
 ;;;###autoload (autoload 'protogg-async-shell-command "protogg")
-(protogg-create 'project-async-shell-command 'async-shell-command protogg-async-shell-command)
+(protogg-define 'project-async-shell-command 'async-shell-command protogg-async-shell-command)
 ;;;###autoload (autoload 'protogg-compile "protogg")
-(protogg-create 'project-compile 'compile protogg-compile)
+(protogg-define 'project-compile 'compile protogg-compile)
 ;;;###autoload (autoload 'protogg-dired "protogg")
-(protogg-create 'project-dired 'dired protogg-dired)
+(protogg-define 'project-dired 'dired protogg-dired)
 ;;;###autoload (autoload 'protogg-eshell "protogg")
-(protogg-create 'project-eshell 'eshell protogg-eshell)
+(protogg-define 'project-eshell 'eshell protogg-eshell)
 ;;;###autoload (autoload 'protogg-find-dired "protogg")
-(protogg-create 'project-find-dir 'find-dired protogg-find-dired)
+(protogg-define 'project-find-dir 'find-dired protogg-find-dired)
 ;;;###autoload (autoload 'protogg-find-file "protogg")
-(protogg-create 'project-find-file 'find-file protogg-find-file)
+(protogg-define 'project-find-file 'find-file protogg-find-file)
 ;;;###autoload (autoload 'protogg-list-buffers "protogg")
-(protogg-create 'project-list-buffers 'list-buffers protogg-list-buffers)
+(protogg-define 'project-list-buffers 'list-buffers protogg-list-buffers)
 ;;;###autoload (autoload 'protogg-shell "protogg")
-(protogg-create 'project-shell 'shell protogg-shell)
+(protogg-define 'project-shell 'shell protogg-shell)
 ;;;###autoload (autoload 'protogg-shell-command "protogg")
-(protogg-create 'project-shell-command 'shell-command protogg-shell-command)
+(protogg-define 'project-shell-command 'shell-command protogg-shell-command)
 ;;;###autoload (autoload 'protogg-switch-to-buffer "protogg")
-(protogg-create 'project-switch-to-buffer 'switch-to-buffer protogg-switch-to-buffer)
+(protogg-define 'project-switch-to-buffer 'switch-to-buffer protogg-switch-to-buffer)
 
 (provide 'protogg)
 ;;; protogg.el ends here
