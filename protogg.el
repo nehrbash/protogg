@@ -67,26 +67,23 @@
 It does this based on whether in a project and can be toggled with ."
   `(defun ,newfunc ()
      (interactive)
-     ;; reset
+     ;; if protogg--toggle is true in a recursive call.
      (if protogg--toggle
          (setq protogg--toggle nil)
+       ;; if not in a recursive call we need to reset to always default to function1
        (setq protogg--use-upper t))
 
      (if (and (project-current) protogg--use-upper)
-         (progn (condition-case nil
-                    (call-interactively ,function1 )
-                  (quit
-                   (if protogg--toggle
-                       (call-interactively #',newfunc)
-                     )))
-                (minibuffer-keyboard-quit))
-       (progn (condition-case nil
-                  (call-interactively ,function2 )
-                (quit
-                 (if protogg--toggle
-                     (call-interactively #',newfunc)
-                   )))
-              (minibuffer-keyboard-quit)))))
+         (condition-case nil
+             (call-interactively ,function1 )
+           (quit
+            (if protogg--toggle
+                (,newfunc))))
+       (condition-case nil
+           (call-interactively ,function2 )
+         (quit
+          (if protogg--toggle
+              (,newfunc)))))))
 
 (with-eval-after-load 'minibuffer
     (add-hook 'minibuffer-setup-hook #'protogg-minibuffer-mode))
