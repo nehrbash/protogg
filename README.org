@@ -21,8 +21,8 @@ Protogg remapps the =project.el= functions to their non-project related function
          ([remap list-buffers] . protogg-list-buffers) ;; type C-x C-b
          ([remap shell-command] . protogg-shell-command) ;; M-!
          ("C-c s" . protogg-shell)
-         ([remap switch-to-buffer] . sn/consult-buffer)
-         ("M-s i" . sn/imenu)) ;; C-x b
+         ([remap switch-to-buffer] . sn/consult-buffer) ;; C-x b
+         ("M-s i" . sn/imenu))
   :config
   ;; example adding your own
   (protogg-create 'consult-project-buffer 'consult-buffer sn/consult-buffer)
