@@ -33,38 +33,6 @@ Protogg remapps the =project.el= functions to their non-project related function
 
  The =project-*= commands will be called instead of the typical command if a project is detected. An example of this is calling =find-file=. It will actually call =project-find-file=. However, you may not always want the project version. To solve this, while in the minibuffer you may switch between the two command with the =protogg-switch-minibuffer= Bounded to =M-q= by default but can be customized with =protogg-minibuffer-toggle-key= .
 
-** Remapping
-
-   Here is a list of  the remapped project function.
-
-| original-function   | remapped to                 |
-|---------------------+-----------------------------|
-| async-shell-command | project-async-shell-command |
-| compile             | project-compile             |
-| dired               | project-dired               |
-| display-buffer      | project-display-buffer      |
-| eshell              | project-eshell              |
-| find-dired          | project-find-dir            |
-| find-file           | project-find-file           |
-| kill-buffer         | project-kill-buffer         |
-| list-buffers        | project-list-buffers        |
-| shell               | project-shell               |
-| shell-command       | project-shell-command       |
-| switch-to-buffer    | project-switch-to-buffer    |
-
-** Example Mapping to  a Diffrent Function
-
-#+begin_src emacs-lisp
-(use-package protogg
-  :config
-  (protogg-mode 1)
-  (protogg-create 'consult-project-buffer 'consult-buffer sn/consult-buffer)
-  (define-key protogg-mode-map [remap switch-to-buffer] 'sn/consult-buffer))
-#+end_src
-
-
-
-
 
 
 
