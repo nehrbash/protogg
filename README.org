@@ -1,23 +1,37 @@
 #+TITLE: Protogg
 
-Protogg remapps the =project.el= functions to their non-project related functions while also providing a minbuffer keybinding to toggle between the two functions.
+Protogg remapps the =project.el= functions to their non-project related functions while also providing a minbuffer keybinding to toggle between the two.
 
 * Getting Started
 
-  Here is an example configuration using =use-package=
+  Here is a basic configuration using =use-package=.
 
 #+begin_src emacs-lisp
 (use-package protogg
   :ensure nil
   :vc (protogg :url "https://github.com/nehrbash/protogg"
-        :branch "main")
+               :branch "main")
   :custom (protogg-minibuffer-toggle-key "M-g")
-  :config (protogg-mode 1))
+  :bind (([remap async-shell-command] . protogg-async-shell-command) ;; M-&
+         ("C-c x" . protogg-compile)
+         ([remap dired] . protogg-dired) ;; C-x d
+         ("C-c e" . protogg-eshell)
+         ("M-s d" . protogg-find-dired)
+         ([remap find-file] . protogg-find-file) ;; C-x C-f
+         ([remap list-buffers] . protogg-list-buffers) ;; type C-x C-b
+         ([remap shell-command] . protogg-shell-command) ;; M-!
+         ("C-c s" . protogg-shell)
+         ([remap switch-to-buffer] . sn/consult-buffer)
+         ("M-s i" . sn/imenu)) ;; C-x b
+  :config
+  ;; example adding your own
+  (protogg-create 'consult-project-buffer 'consult-buffer sn/consult-buffer)
+  (protogg-create 'consult-imenu-multi 'consult-imenu sn/imenu)) ;; C-x b
 #+end_src
 
 * Usage
 
-  When =protogg= is enabled and in a detectable project according to =project.el= the =project-*= command will be called instead of the typical command. Example calling =find-file= will actually call =project-find-file=. However, you may not always want the project version. To solve this, while in the minibuffer you may switch between the two command with the =protogg-switch-minibuffer= function bound to =M-q= by default.
+ The =project-*= commands will be called instead of the typical command if a project is detected. An example of this is calling =find-file=. It will actually call =project-find-file=. However, you may not always want the project version. To solve this, while in the minibuffer you may switch between the two command with the =protogg-switch-minibuffer= Bounded to =M-q= by default but can be customized with =protogg-minibuffer-toggle-key= .
 
 ** Remapping
 
@@ -38,7 +52,7 @@ Protogg remapps the =project.el= functions to their non-project related function
 | shell-command       | project-shell-command       |
 | switch-to-buffer    | project-switch-to-buffer    |
 
-** Example Mapping to  a Diffrent Function or Adding Your Own
+** Example Mapping to  a Diffrent Function
 
 #+begin_src emacs-lisp
 (use-package protogg
@@ -47,3 +61,11 @@ Protogg remapps the =project.el= functions to their non-project related function
   (protogg-create 'consult-project-buffer 'consult-buffer sn/consult-buffer)
   (define-key protogg-mode-map [remap switch-to-buffer] 'sn/consult-buffer))
 #+end_src
+
+
+
+
+
+
+
+
