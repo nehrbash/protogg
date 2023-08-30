@@ -47,13 +47,16 @@
 (defun protogg-switch-minibuffer ()
   "Toggle the state on wheather to use the project based function or not."
   (interactive)
+  ;; toggle between using function1 and function2
   (if protogg--use-upper
-    (setq protogg--use-upper nil)
+      (setq protogg--use-upper nil)
     (setq protogg--use-upper t))
-  (setq protogg--toggle t)
   (if (null (project-current))
-    (message "Not in project.")
-    (minibuffer-keyboard-quit)))
+      (message "Not in project.")
+    (progn
+      ;; yes I want to toggle
+      (setq protogg--toggle t)
+      (minibuffer-keyboard-quit))))
 
 (define-minor-mode protogg-minibuffer-mode
   "Toggle between two interactive functions when they are active in the minibuffer."
