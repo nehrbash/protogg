@@ -52,7 +52,7 @@
       (setq protogg--use-upper nil)
     (setq protogg--use-upper t))
   (if (null (project-current))
-      (message "Not in project.")
+      (error "not in project")
     (progn
       ;; yes I want to toggle
       (setq protogg--toggle t)
