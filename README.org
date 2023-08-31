@@ -25,15 +25,17 @@ Protogg remapps the =project.el= functions to their non-project related function
          ("M-s i" . sn/imenu))
   :config
   ;; example adding your own
-  (protogg-create 'consult-project-buffer 'consult-buffer sn/consult-buffer)
-  (protogg-create 'consult-imenu-multi 'consult-imenu sn/imenu)) ;; C-x b
+  (protogg-define 'consult-project-buffer 'consult-buffer sn/consult-buffer)
+  (protogg-define 'consult-imenu-multi 'consult-imenu sn/imenu)) ;; C-x b
 #+end_src
 
 * Usage
 
- The =project-*= commands will be called instead of the typical command if a project is detected. An example of this is calling =find-file=. It will actually call =project-find-file=. However, you may not always want the project version. To solve this, while in the minibuffer you may switch between the two command with the =protogg-switch-minibuffer= Bounded to =M-q= by default but can be customized with =protogg-minibuffer-toggle-key= .
+  The =project-*= commands will be called instead of the typical command if a project is detected. An example of this is calling =find-file=. It will actually call =project-find-file=. However, you may not always want the project version. To solve this, while in the minibuffer you may switch between the two command with the =protogg-switch-minibuffer= Bounded to =M-q= by default but can be customized with =protogg-minibuffer-toggle-key= .
 
+* Recommend Packages
 
-
-
+- =ibuffer-project= - to easily switch between project buffers
+- =consult= - for the enhanced  filtering and previewing as shown in the example config.
+- =embark= for =embark-become= which can either replace this package or complement it by allowing you to turn any minbuffer command into a diffrent one.
 

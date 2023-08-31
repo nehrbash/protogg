@@ -51,12 +51,10 @@
   (if protogg--use-upper
       (setq protogg--use-upper nil)
     (setq protogg--use-upper t))
-  (if (null (project-current))
-      (error "not in project")
-    (progn
-      ;; yes I want to toggle
-      (setq protogg--toggle t)
-      (minibuffer-keyboard-quit))))
+  (unless (project-current)
+    (user-error "Not in project"))
+  (setq protogg--toggle t)
+  (minibuffer-keyboard-quit))
 
 (define-minor-mode protogg-minibuffer-mode
   "Toggle between two interactive functions when they are active in the minibuffer."
