@@ -66,6 +66,7 @@
 (with-eval-after-load 'minibuffer
     (add-hook 'minibuffer-setup-hook #'protogg-minibuffer-mode))
 
+;;;###autoload
 (defmacro protogg-define (function1 function2 newfunc)
   "Create function NEWFUNC to toggle between FUNCTION1 and FUNCTION2.
 It does this based on whether in a project and can be toggled with ."
