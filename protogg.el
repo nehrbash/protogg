@@ -12,8 +12,8 @@
 ;;
 ;;; Commentary:
 ;;
-;; Protogg remapps the `project.el' functions to their non-project related functions while also providing a minbuffer
-;; keybind to switch between the two functions.
+;; Protogg remaps the `project.el' functions to their non-project related functions while also providing a minibuffer
+;; keybinding to switch between the two functions.
 ;;
 ;;; Code:
 
@@ -29,7 +29,7 @@
   :prefix "protogg-")
 
 (defcustom protogg-minibuffer-toggle-key "M-q"
-  "Keybinding for switching protogg functions in the minibuffer ."
+  "Keybinding for switching protogg functions in the minibuffer."
   :type 'key-sequence
   :group 'protogg)
 
@@ -45,7 +45,7 @@
 
 ;;;###autoload
 (defun protogg-switch-minibuffer ()
-  "Toggle the state on wheather to use the project based function or not."
+  "Switch between the project based function and regular function."
   (interactive)
   ;; toggle between using function1 and function2
   (if protogg--use-upper
@@ -69,7 +69,7 @@
 ;;;###autoload
 (defmacro protogg-define (function1 function2 newfunc)
   "Create function NEWFUNC to toggle between FUNCTION1 and FUNCTION2.
-It does this based on whether in a project and can be toggled with ."
+It determines which one to call based on project state."
   `(defun ,newfunc ()
      (interactive)
      ;; if protogg--toggle is true in a recursive call.
@@ -80,12 +80,12 @@ It does this based on whether in a project and can be toggled with ."
 
      (if (and (project-current) protogg--use-upper)
          (condition-case nil
-             (call-interactively ,function1 )
+             (call-interactively ,function1)
            (quit
             (if protogg--toggle
                 (,newfunc))))
        (condition-case nil
-           (call-interactively ,function2 )
+           (call-interactively ,function2)
          (quit
           (if protogg--toggle
               (,newfunc)))))))
